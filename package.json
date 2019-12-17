@@ -2,9 +2,10 @@
   "name": "simple-jwt-app",
   "version": "1.0.0",
   "description": "Recruitment task for Leocode",
-  "main": "index.js",
+  "main": "./src/server.ts",
   "scripts": {
-    "test": "jest --forceExit --coverage --verbose"
+    "start": "nodemon ./src/server.ts",
+    "test": "jest --detectOpenHandles --testTimeout=10000"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/glaskawiec/simple-jwt-app#readme",
   "dependencies": {
+    "body-parser": "1.19.0",
     "express": "4.17.1",
     "hybrid-crypto-js": "0.2.2",
     "jsonwebtoken": "8.5.1"
@@ -38,6 +40,7 @@
     "nodemon": "2.0.2",
     "supertest": "4.0.2",
     "ts-jest": "24.2.0",
+    "ts-node": "8.5.4",
     "typescript": "3.7.3"
   }
 }

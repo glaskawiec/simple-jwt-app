@@ -21,5 +21,4 @@ const generateRsaKeys = () => {
   };
 };
 
-
 export default generateRsaKeys;

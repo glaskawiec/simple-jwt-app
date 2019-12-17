@@ -1,5 +1,4 @@
 import fs from 'fs';
-// @ts-ignore
 import { Crypt } from 'hybrid-crypto-js';
 
 const encryptFileWithRsa = (filePath: string, publicKey: string) => {

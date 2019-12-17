@@ -18,5 +18,8 @@
   },
   "include": [
     "src/**/*"
+  ],
+  "files": [
+    "modules.d.ts"
   ]
 }

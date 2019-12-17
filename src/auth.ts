@@ -1,20 +1,35 @@
 import jwt from 'jsonwebtoken';
-import { add, isValid } from './tokensStorage';
+import {
+  associateToken, searchUser, isTokenValid,
+} from './usersDatabase';
 import { JWT_SECRET } from '../config';
 
-export const generateToken = (payload: object, expiresIn: string): string => {
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn });
-  add(token);
+export const generateToken = (payload: object, expiresIn: string = '1h'): string => jwt.sign(payload, JWT_SECRET, { expiresIn });
 
-  return token;
+export const signIn = (email: string, password: string) => {
+  const user = searchUser(email, password);
+
+  if (user) {
+    const token = generateToken({ email }, '1h');
+    associateToken(email, token);
+    return token;
+  }
+  return false;
 };
 
 export const verifyToken = (token: string): any => {
-  if (!isValid(token)) {
-    return false;
-  }
   try {
-    return jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+
+    if (typeof decoded === 'object') {
+      // @ts-ignore
+      const { email } = decoded;
+
+      if (isTokenValid(email, token)) {
+        return { email };
+      }
+    }
   } catch (err) {
     return false;
   }
