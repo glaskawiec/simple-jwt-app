@@ -1,24 +1,30 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../auth';
 
-const authController = (req: Request, res: Response, next: NextFunction) => {
+const authController = (req: Request, res: Response, next: NextFunction): void => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(410).send();
+    res.status(410).send();
   }
+
+  let user = null;
 
   try {
-    const user = verifyToken(token);
-
-    if (!user) {
-      return res.status(410).send();
-    }
-    res.locals.email = user.email;
-    return next();
+    user = verifyToken(token);
   } catch {
-    return res.status(410).send();
+    res
+      .status(410)
+      .send();
   }
+
+  if (!user) {
+    res
+      .status(410)
+      .send();
+  }
+  res.locals.email = user.email;
+  next();
 };
 
 export default authController;

@@ -1,16 +1,23 @@
 import { Request, Response } from 'express';
 import { signIn } from '../auth';
+import SignInResponse from '../interfaces/SignInResponse';
 
-const signInController = (req: Request, res: Response) => {
+const signInController = (req: Request, res: Response): void => {
   const { email, password } = req.body;
 
-  const authToken = signIn(email, password);
+  const token = signIn(email, password);
 
-  if (authToken) {
-    res.status(200).send({ authToken });
-  } else {
-    res.status(400).send();
+  if (!token) {
+    res
+      .status(400)
+      .send();
   }
+
+  const responseBody: SignInResponse = { authToken: token };
+
+  res
+    .status(200)
+    .send(responseBody);
 };
 
 export default signInController;

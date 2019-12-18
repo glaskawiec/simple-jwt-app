@@ -1,13 +1,15 @@
-import express from 'express';
+import express, { Express } from 'express';
 import bodyParser from 'body-parser';
 import router from './router';
 
-const server = express();
+const app: Express = express();
 
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());
-server.use('/api', router);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use('/api', router);
 
-const x = server.listen(3000);
+const server = app.listen(3000, () => {
+  console.log('Magic happens on port 3000');
+});
 
-export default x;
+export default server;

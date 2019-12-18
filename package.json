@@ -4,8 +4,10 @@
   "description": "Recruitment task for Leocode",
   "main": "./src/server.ts",
   "scripts": {
-    "start": "nodemon ./src/server.ts",
-    "test": "jest --detectOpenHandles --testTimeout=10000"
+    "start": "ts-node ./src/server.ts",
+    "start:dev": "nodemon ./src/server.ts",
+    "test": "jest --detectOpenHandles --testTimeout=10000",
+    "lint:fix": "eslint '*/**/*.{js,ts}' --fix"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,7 @@
 import { generateKeyPairSync } from 'crypto';
+import KeysPair from '../src/interfaces/KeysPair';
 
-const generateRsaKeys = () => {
+const generateRsaKeys = (): KeysPair => {
   const { publicKey, privateKey } = generateKeyPairSync('rsa', {
     modulusLength: 1024,
     publicKeyEncoding: {

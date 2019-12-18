@@ -3,10 +3,11 @@ import {
   associateToken, searchUser, isTokenValid,
 } from './usersDatabase';
 import { JWT_SECRET } from '../config';
+import TokenPayload from './interfaces/TokenPayload';
 
 export const generateToken = (payload: object, expiresIn: string = '1h'): string => jwt.sign(payload, JWT_SECRET, { expiresIn });
 
-export const signIn = (email: string, password: string) => {
+export const signIn = (email: string, password: string): string => {
   const user = searchUser(email, password);
 
   if (user) {
@@ -14,23 +15,21 @@ export const signIn = (email: string, password: string) => {
     associateToken(email, token);
     return token;
   }
-  return false;
+  return null;
 };
 
-export const verifyToken = (token: string): any => {
+export const verifyToken = (token: string): TokenPayload => {
+  let decoded: any = null;
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-
-
-    if (typeof decoded === 'object') {
-      // @ts-ignore
-      const { email } = decoded;
-
-      if (isTokenValid(email, token)) {
-        return { email };
-      }
-    }
-  } catch (err) {
-    return false;
+    decoded = jwt.verify(token, JWT_SECRET);
+  } catch {
+    return null;
   }
+
+  const { email } = decoded;
+
+  if (email && isTokenValid(email, token)) {
+    return { email };
+  }
+  return null;
 };

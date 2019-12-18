@@ -1,10 +1,10 @@
-import express from 'express';
+import express, { Router } from 'express';
 import signInController from './controllers/signInController';
 import encryptController from './controllers/encryptController';
 import generateKeyPairController from './controllers/generateKeyPairController';
 import authController from './controllers/authController';
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.post('/sign-in', signInController);
 router.post('/generate-key-pair', authController, generateKeyPairController);
